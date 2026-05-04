@@ -35,7 +35,7 @@ pipeline {
         stage('run container') {
             steps {
                 echo 'Starting Campaigns container on port 8081...'
-                sh 'docker run -d --name campaigns-demo-server --label campaigns-demo -p 8081:8080 milacasas/campaigns-demo:v1'
+                sh 'docker run -d --name campaigns-demo-server --label campaigns-demo -p 8081:5000 milacasas/campaigns-demo:v1'
             }
         }
     }
