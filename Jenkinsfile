@@ -11,11 +11,13 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Copying war file') {
+        stage('Copying jar file') {
             steps {
-                echo 'Copying campaigns war file..'
-                // Sacamos el .war generado por este nuevo proyecto a la raíz
-                sh 'mv target/*.war .'
+                echo 'Copying campaigns jar file..'
+                // Cambiamos .war por .jar
+                sh 'mv target/*.jar .'
+            }
+        }
             }
         }
         stage('cleanup') {
