@@ -20,8 +20,10 @@ pipeline {
         stage('cleanup') {
             steps {
                 echo 'Cleaning up old containers...'
-                // Cambiamos "label=campaigns-demo" por "label=campaign-demo-server" para cumplir con la guía
-                sh 'docker system prune -a --volumes --force --filter "label=campaign-demo-server"'
+                // Eliminamos --volumes y -a para asegurar compatibilidad
+                sh 'docker stop campaign-demo-server || true'
+                sh 'docker rm campaign-demo-server || true'
+                sh 'docker system prune -f --filter "label=campaign-demo-server"'
             }
         }
         stage('build image') {
