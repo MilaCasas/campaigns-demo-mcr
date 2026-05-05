@@ -14,28 +14,28 @@ pipeline {
         stage('Copying jar file') {
             steps {
                 echo 'Copying campaigns jar file..'
-                // Cambiado a .jar porque tu proyecto genera un JAR
                 sh 'mv target/*.jar .'
             }
         }
         stage('cleanup') {
             steps {
                 echo 'Cleaning up old containers...'
-                sh 'docker stop campaigns-demo-server || true'
-                sh 'docker rm campaigns-demo-server || true'
-                sh 'docker system prune -f --filter "label=campaigns-demo" || true'
+                // Cambiamos "label=campaigns-demo" por "label=campaign-demo-server" para cumplir con la guía
+                sh 'docker system prune -a --volumes --force --filter "label=campaign-demo-server"'[cite: 1, 2]
             }
         }
         stage('build image') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t milacasas/campaigns-demo:v1 --label campaigns-demo .'
+                // Usamos la etiqueta exacta: campaign-demo-server
+                sh 'docker build -t milacasas/campaign-demo:v1 --label campaign-demo-server .'[cite: 1, 2]
             }
         }
         stage('run container') {
             steps {
-                echo 'Starting Campaigns container on port 8081...'
-                sh 'docker run -d --name campaigns-demo-server --label campaigns-demo -p 8081:8080 milacasas/campaigns-demo:v1'
+                echo 'Starting Campaigns container on port 5000...'
+                // Importante: El puerto 5000:5000 y el nombre del contenedor corregido
+                sh 'docker run -d --name campaign-demo-server --label campaign-demo-server -p 5000:5000 milacasas/campaign-demo:v1'[cite: 1, 2]
             }
         }
     }
